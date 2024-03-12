@@ -51,7 +51,7 @@ Page({
             select
         } = this.data;
         // 查表，对tab进行动态切换
-        const openid = wx.getStorageSync('openid')
+        const openid = wx.getStorageSync('openid');
         db.collection('publish').where({
             type: String(select),
             _openid: openid
@@ -72,7 +72,39 @@ Page({
             }
         })
     },
-
+    deleteItem(e) {
+      const { item } = e.currentTarget.dataset;
+      const id = item._id; // 获取item的_id
+      wx.showModal({
+        title: '提示',
+        content: '确定要删除这条记录吗？',
+        success(res) {
+          if (res.confirm) {
+            // 用户点击了确定，执行删除操作
+            db.collection('publish').where({
+              _id: id
+            }).remove({
+              success: function (res) {
+                console.log('删除成功')
+                wx.showToast({
+                  title: '删除成功',
+                  icon: 'success',
+                  duration: 2000
+                });
+                // this.onLoad();
+                // 删除成功后，更新页面数据
+                const newList = this.data.list.filter(listItem => listItem._id !== id);
+                this.setData({
+                  list: newList
+                });
+              }.bind(this)
+            });
+          } else if (res.cancel) {
+            console.log('用户点击了取消')
+          }
+        }
+      })
+    },
     /**
      * 生命周期函数--监听页面初次渲染完成
      */

@@ -42,7 +42,7 @@
     },
     "appid": "wx81392b94c4130c1b",
     "projectname": "find_things",
-    "libVersion": "2.14.1",
+    "libVersion": "2.25.3",
     "cloudfunctionTemplateRoot": "cloudfunctionTemplate/",
     "condition": {
         "search": {

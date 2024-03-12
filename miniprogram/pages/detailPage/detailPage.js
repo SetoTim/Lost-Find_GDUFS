@@ -9,20 +9,31 @@ Page({
     data: {
         collectionIcon: ['../../images/collect.png', '../../images/_collect.png'],  //实现收藏图标切换的数组
         info: {},   
-        openid: ''  
+        openid: '',
     },
-
+    copyContact(event) {
+        const contact = event.currentTarget.dataset.contact;
+        wx.setClipboardData({
+          data: this.data.info.contact,
+          success: (res) => {
+            wx.showToast({
+              icon: 'none',
+              title: '联系方式已复制'
+            })
+          }
+        })
+    },
     // 实现获取联系方式功能
     toContact() {
         wx.showModal({
             title: '联系方式',
-            content: '123xxxx8910',
+            content: this.data.info.contact,
             confirmText: '复制',
             success: (res) => {
                 //   console.log(res)
                 if (res.confirm) {
                     wx.setClipboardData({
-                        data: '12345678910',
+                        data: this.data.info.contact,
                         success: (res) => {
                             wx.showToast({
                                 icon: 'none',

@@ -87,6 +87,32 @@ Page({
                 })
             }
         })
+  wx.getUserInfo({
+              //成功后会返回
+              success:(res)=>{
+                console.log(res);
+                // 把你的用户信息存到一个变量中方便下面使用
+                let userInfo1 = res.userInfo
+                //获取openId（需要code来换取）这是用户的唯一标识符
+                // 获取code值
+                wx.login({
+                  //成功放回
+                  success:(res)=>{
+                    console.log(res);
+                    let code=res.code
+                    // 通过code换取openId
+                    wx.request({
+                      url: `https://api.weixin.qq.com/sns/jscode2session?appid=wx81392b94c4130c1b&secret=240e5c36cf3d79950c211a129b6223c3&js_code=${code}&grant_type=authorization_code`,
+                      success:(res)=>{
+                        console.log(res);
+                        userInfo1.openid=res.data.openid
+                        wx.setStorageSync('openid', userInfo1.openid);
+                      }
+                    })
+                  }
+                })
+              }
+            })
     },
     
     /**

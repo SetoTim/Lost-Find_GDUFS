@@ -16,9 +16,9 @@
 
         <!-- 右侧物品栏 -->
         <view class="classify-right">
-            <view class="right-item" wx:for="{{[1,1,1]}}" wx:key="index">
-                <image class="find-img" src="../../images/demo2.jpg"></image>
-                <text class="find-text">首页查找</text>
+            <view class="right-item" bind:tap="goTo" wx:for="{{rightItemsToShow}}" wx:key="index">
+                <image class="find-img" src="{{item.img}}"></image>
+                <text class="find-text">{{item.name}}</text>
             </view>
         </view>
 
