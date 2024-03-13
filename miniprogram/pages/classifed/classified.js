@@ -14,11 +14,12 @@ Page({
   data: {
       tabList: ['寻主', '寻物'],
       index: 0,
+      list :[],
       select: 0
   },
 
   getTab(e) {
-      // console.log(e)
+      console.log(e)
       const select = e.detail;
       this.setData({
           select
@@ -48,10 +49,13 @@ Page({
    */
   onLoad(options) {
       let firstClassify = "";
+      let index = 0;
       const {
           select
       } = this.data;
-      const index = options.index;
+      if(options!==undefined){
+        index = options.index;
+      }
       // 查表，对tab进行动态切换
       if(index == 0){
         firstClassify = "证件类"
@@ -62,7 +66,6 @@ Page({
       }else{
         firstClassify = "电子产品类"
       }
-      console.log(firstClassify)
       db.collection('publish').where({
           type: String(select),
           firstClassify : firstClassify
