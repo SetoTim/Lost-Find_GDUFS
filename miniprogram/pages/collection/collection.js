@@ -67,8 +67,11 @@ Page({
                 const {
                     data
                 } = res;
+                const sortedData = data.sort((a, b) => {
+                  return a.time > b.time ? -1 : a.time < b.time ? 1 : 0;
+                });
                 this.setData({
-                    list: data.map(item => {
+                    list: sortedData.map(item => {
                         return {
                             ...item,
                             time: formatTime(item.time)
@@ -78,23 +81,6 @@ Page({
             }
         })
 
-        // // 获取用户的openid
-        // const openid = wx.getStorageSync('openid')
-        // // 如果用户的openid存在则不用再次获取
-        // if (!openid) {
-        //     wx.cloud.callFunction({
-        //         name: 'get_openid',
-        //         success: (res) => {
-        //             // console.log(res)
-        //             const {
-        //                 result: {
-        //                     openid
-        //                 }
-        //             } = res;
-        //             wx.setStorageSync('openid', openid)
-        //         }
-        //     })
-        // }
 
     },
 

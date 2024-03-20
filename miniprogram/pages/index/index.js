@@ -10,7 +10,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        background: ['../../images/demo2.jpg', '../../images/demo1.jpg'], //轮播图数组
+        background: ['../../images/demo1.jpg', '../../images/demo2.jpg'], //轮播图数组
         tabList: ['寻主', '寻物'], //tab数组
         select: 0, //判断选择的tab
         list: [] //用于储存表单数据的数组
@@ -23,13 +23,6 @@ Page({
             select
         })
         this.onLoad();
-    },
-
-    // 进入搜索框页面
-    toSearch() {
-        wx.navigateTo({
-            url: '../search/search',
-        })
     },
 
     // 进入物品的详情页面
@@ -64,13 +57,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        // get查询
-
-        // db.collection('publish').get({
-        //     success:(res)=>{
-        //         console.log(res)
-        //     }
-        // })
         const {
             select
         } = this.data;
@@ -83,8 +69,11 @@ Page({
                 const {
                     data
                 } = res;
+                const sortedData = data.sort((a, b) => {
+                  return a.time > b.time ? -1 : a.time < b.time ? 1 : 0;
+                });
                 this.setData({
-                    list: data.map(item => {
+                    list: sortedData.map(item => {
                         return {
                             ...item,
                             time: formatTime(item.time)

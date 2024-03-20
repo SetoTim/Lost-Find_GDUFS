@@ -49,13 +49,13 @@ Page({
    */
   onLoad(options) {
       let firstClassify = "";
-      let index = 0;
       const {
           select
       } = this.data;
       if(options!==undefined){
-        index = options.index;
+        wx.setStorageSync('index', options.index)
       }
+      let index = wx.getStorageSync('index')
       // 查表，对tab进行动态切换
       if(index == 0){
         firstClassify = "证件类"
@@ -63,8 +63,10 @@ Page({
         firstClassify = "书籍类"
       }else if(index == 2){
         firstClassify = "生活用品类"
-      }else{
+      }else if(index == 3){
         firstClassify = "电子产品类"
+      }else{
+        firstClassify = "其他"
       }
       db.collection('publish').where({
           type: String(select),
@@ -75,8 +77,11 @@ Page({
               const {
                   data
               } = res;
+              const sortedData = data.sort((a, b) => {
+                return a.time > b.time ? -1 : a.time < b.time ? 1 : 0;
+              });
               this.setData({
-                  list: data.map(item => {
+                  list: sortedData.map(item => {
                       return {
                           ...item,
                           time: formatTime(item.time)

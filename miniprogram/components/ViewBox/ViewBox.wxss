@@ -26,7 +26,7 @@
 }
 
 .find-content .region {
-    margin-top: 35rpx;
+    margin-top: 15rpx;
 }
 
 .find-content .desc {

@@ -1,4 +1,6 @@
 // pages/me/me.js
+const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+
 Page({
 
     /**
@@ -6,7 +8,7 @@ Page({
      */
     data: {
         // login: false,       //登录状态
-        avatarUrl: '',      //头像
+        avatarUrl: defaultAvatarUrl,      //头像
         nickName: '',       //昵称
         // 页面跳转选择
         cellList: [{
@@ -14,11 +16,11 @@ Page({
                 text: '我的发布',
                 page: '../myPublish/myPublish'
             },
-            {
-                url: '../../images/_collection.png',
-                text: '我的收藏',
-                page: '../myCollection/myCollection'
-            },
+            // {
+            //     url: '../../images/_collection.png',
+            //     text: '我的收藏',
+            //     page: '../myCollection/myCollection'
+            // },
             {
                 url: '../../images/myInformation.png',
                 text: '我的信息',
@@ -30,7 +32,12 @@ Page({
             }
         ]
     },
-
+    onChooseAvatar(e) {
+      const { avatarUrl } = e.detail
+      this.setData({
+        avatarUrl
+      })
+    },
     // 实现页面跳转
     toDetail(e) {
         const {
@@ -61,7 +68,11 @@ Page({
             })
         }
     },
-
+    setNickName(e){
+      let nickName = e.detail.value
+      wx.setStorageSync('nickName', nickName)
+      console.log(nickName)
+    },
     // 实现登录
     toLogin() {
         wx.getUserProfile({
@@ -87,34 +98,13 @@ Page({
                 })
             }
         })
-  wx.getUserInfo({
-              //成功后会返回
-              success:(res)=>{
-                console.log(res);
-                // 把你的用户信息存到一个变量中方便下面使用
-                let userInfo1 = res.userInfo
-                //获取openId（需要code来换取）这是用户的唯一标识符
-                // 获取code值
-                wx.login({
-                  //成功放回
-                  success:(res)=>{
-                    console.log(res);
-                    let code=res.code
-                    // 通过code换取openId
-                    wx.request({
-                      url: ``,
-                      success:(res)=>{
-                        console.log(res);
-                        userInfo1.openid=res.data.openid
-                        wx.setStorageSync('openid', userInfo1.openid);
-                      }
-                    })
-                  }
-                })
-              }
-            })
+        wx.cloud.callFunction({
+          name:'GetOpenId',
+        }).then(res=>{
+         wx.setStorageSync('openid', res.result.userInfo.openId)//res就将appid和openid返回了
+            //做一些后续操作，不用考虑代码的异步执行问题。
+        })
     },
-    
     /**
      * 生命周期函数--监听页面加载
      */

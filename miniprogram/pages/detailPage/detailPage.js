@@ -74,9 +74,6 @@ Page({
                         collectionIcon
                     })
                 },
-                // fail: (err) => {
-                //     console.log(err)
-                // }
             })
         } else {
             db.collection('collection').where({

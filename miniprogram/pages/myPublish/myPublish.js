@@ -61,8 +61,11 @@ Page({
                 const {
                     data
                 } = res;
+                const sortedData = data.sort((a, b) => {
+                  return a.time > b.time ? -1 : a.time < b.time ? 1 : 0;
+                });
                 this.setData({
-                    list: data.map(item => {
+                    list: sortedData.map(item => {
                         return {
                             ...item,
                             time: formatTime(item.time)
@@ -75,6 +78,7 @@ Page({
     deleteItem(e) {
       const { item } = e.currentTarget.dataset;
       const id = item._id; // 获取item的_id
+      const imgList = item.imgList;
       wx.showModal({
         title: '提示',
         content: '确定要删除这条记录吗？',
@@ -91,12 +95,24 @@ Page({
                   icon: 'success',
                   duration: 2000
                 });
-                // this.onLoad();
+                // 遍历imgList，删除云存储中的图片
+            imgList.forEach(async (imgItem, index) => {
+              try {
+                // 注意：这里需要替换为您的云存储空间中图片的真实路径
+                const result = await wx.cloud.deleteFile({
+                  fileList: [imgItem], // 云存储中图片的URL
+                });
+                console.log('删除云存储图片', result);
+              } catch (error) {
+                console.error('删除云存储图片失败', error);
+              }
+            });
                 // 删除成功后，更新页面数据
                 const newList = this.data.list.filter(listItem => listItem._id !== id);
                 this.setData({
                   list: newList
                 });
+                this.onLoad();
               }.bind(this)
             });
           } else if (res.cancel) {

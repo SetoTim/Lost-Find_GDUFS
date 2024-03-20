@@ -7,12 +7,12 @@ Page({
      */
     data: {
         multiArray: [
-            ['证件类', '电子产品'],
+            ['证件类','书籍类','生活用品类', '电子产品类','其他'],
             ['身份证', '校园卡', '其他'],
         ],    //类型选择栏的初始选择
         pickerList: [
-            ['身份证', '校园卡', '其他'],
-            ['手机', '笔记本电脑', '平板电脑', '相机', 'MP3','MP4','U盘','硬盘','耳机','其他'],
+            ['身份证', '校园卡', '其他证件'],['课本','课外书','其他书籍'],['钥匙','书包','水杯','其他生活用品'],
+            ['手机', '笔记本电脑', '平板电脑','U盘','硬盘','耳机','其他电子产品'],['其他']
         ],    //选择栏内容
         multiIndex: [0, 0],     //类型选择栏下标初始化     
         select: false,      //判断是否处于选择状态
@@ -175,6 +175,7 @@ Page({
          * desc
          * imgList
          */
+        const nickName = wx.getStorageSync('nickName')
         const {
             type,
             select,
@@ -207,6 +208,7 @@ Page({
                 contact,
                 desc,
                 imgList,
+                nickName,
                 time: new Date().getTime()
             },
             success: (res) => {
@@ -240,6 +242,18 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+        const login = wx.getStorageSync('login');
+        if(login){}else{
+          wx.switchTab({
+            url: '../me/me',
+            success: () => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '请前往我的页面进行登录',
+                })
+            }
+        })
+        }
         const userInfo = wx.getStorageSync('userInfo')      //获取缓存中的userInfo
         if (userInfo && userInfo.phone) {
             this.setData({

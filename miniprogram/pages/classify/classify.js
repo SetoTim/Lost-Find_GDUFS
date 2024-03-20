@@ -5,17 +5,28 @@ Page({
      * 页面的初始数据
      */
     data: {
-        asideBars:["证件","书籍","生活用品","电子产品"],
+        asideBars:["证件类","书籍类","生活用品类","电子产品类","其他"],
         select:0,
-        rightItems: [   // 右侧物品栏数据
-          { name: "身份证", img: "../../images/demo2.jpg" },//0
-          { name: "学生证", img: "../../images/demo2.jpg" },//1
-          { name: "书本", img: "../../images/demo2.jpg" },//2
-          { name: "钥匙", img: "../../images/demo2.jpg" },//3
-          { name: "书包", img: "../../images/demo2.jpg" },//4
-          { name: "手机", img: "../../images/demo2.jpg" },//5
-          // 根据实际需要添加更多物品数据
-      ]
+        rightItemsId: [   
+          { name: "身份证", img: "../../images/IDCard.png" },
+          { name: "学生证", img: "../../images/studentIDCard.png" }
+      ],
+        rightItemsBook: [
+          { name: "课本", img: "../../images/classBook.png" },
+          { name: "课外书", img: "../../images/afterClassBook.png" }
+        ],
+        rightItemsLifes: [
+          { name: "钥匙", img: "../../images/Keys.png" },
+          { name: "书包", img: "../../images/bag.png" }
+        ],
+        rightItemsElectronic: [
+          { name: "手机", img: "../../images/phone.png" },
+          { name: "U盘", img: "../../images/upan.png" }
+        ],
+        rightItemsOthers: [
+          { name: "其他", img: "../../images/others.png" }
+        ]
+
     },
     goTo(e){
         const index = this.data.select
@@ -27,21 +38,19 @@ Page({
     // 侧边栏的选择
     selectBar(e){
         const {index} = e.currentTarget.dataset
-        const rightItems = this.data.rightItems
-        console.log(rightItems)
         let toShow=[]
         if (index === 0) { // 如果选择的是左边第一个分类
-          console.log('证件')
-          toShow = rightItems.slice(0, 2); // 取rightItems中的第一个和第二个物品
+          toShow = this.data.rightItemsId; // 取rightItems中的第一个和第二个物品
       } else if(index === 1) {
-          console.log('书籍')
           // 其他分类的处理，可以根据实际情况进行更改
           // 这里假设其他分类也展示前两个物品
-          toShow = rightItems.slice(2,3);
+          toShow = this.data.rightItemsBook;
       } else if(index === 2){
-          toShow = rightItems.slice(3, 5);
+          toShow = this.data.rightItemsLifes;
+      } else if(index === 3){
+          toShow = this.data.rightItemsElectronic;
       } else{
-          toShow = rightItems.slice(5);
+          toShow = this.data.rightItemsOthers
       }
         this.setData({
             select:index,
@@ -59,18 +68,44 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
+      const login1 = wx.getStorageSync('login');
+      if(login1){}else{
+        wx.switchTab({
+          url: '../me/me',
+          success: () => {
+              wx.showToast({
+                  icon: 'none',
+                  title: '请前往我的页面进行登录',
+              })
+          }
+      })
+      };
       this.setData({
-        rightItems: [
-          { name: "身份证", img: "../../images/demo2.jpg" },
-          { name: "学生证", img: "../../images/demo2.jpg" },
-          { name: "书本", img: "../../images/demo2.jpg" },
-          { name: "钥匙", img: "../../images/demo2.jpg" },
-          { name: "书包", img: "../../images/demo2.jpg" },
-          { name: "手机", img: "../../images/demo2.jpg" }
-          // 添加更多物品数据
+        rightItemsId: [   
+          { name: "身份证", img: "../../images/IDCard.png" },
+          { name: "学生证", img: "../../images/studentIDCard.png" }
+      ],
+      rightItemsId: [   
+        { name: "身份证", img: "../../images/IDCard.png" },
+        { name: "学生证", img: "../../images/studentIDCard.png" }
+    ],
+      rightItemsBook: [
+        { name: "课本", img: "../../images/classBook.png" },
+        { name: "课外书", img: "../../images/afterClassBook.png" }
+      ],
+      rightItemsLifes: [
+        { name: "钥匙", img: "../../images/Keys.png" },
+        { name: "书包", img: "../../images/bag.png" }
+      ],
+      rightItemsElectronic: [
+        { name: "手机", img: "../../images/phone.png" },
+        { name: "u盘", img: "../../images/upan.png" }
+      ],
+      rightItemsOthers: [
+        { name: "其他", img: "../../images/others.png" }
       ],
         select: 0,
-        rightItemsToShow: this.data.rightItems.slice(0, 2)
+        rightItemsToShow: this.data.rightItemsId
     });
     },
 

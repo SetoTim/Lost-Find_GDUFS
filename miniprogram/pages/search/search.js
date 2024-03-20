@@ -1,5 +1,6 @@
 // pages/search/search.js
 let t = null
+const db = wx.cloud.database();
 Page({
 
     /**
@@ -8,16 +9,14 @@ Page({
     data: {
         search_input: '',  // 延时响应的值
         _search_input: '',  // 即时响应的值
-        searchLog: []   // 用于储存搜索历史的数组
+        searchLog: [],   // 用于储存搜索历史的数组
     },
-
     // 实现在数据库查询是否有与搜索内容相匹配的功能
     getSearch(e) {
         this.setData({
             _search_input: e.detail.value
         })
-        // console.log(e.detail.value)
-
+        
         /* 实现防抖
         setTimeout(() => {
             console.log(e.detail.value)
@@ -27,7 +26,6 @@ Page({
             this.setData({
                 search_input: e.detail.value
             })
-            // console.log(e.detail.value)
             let searchLog = wx.getStorageSync('searchLog')
             if (this.data.search_input.trim().length > 0) {
                 if (searchLog) {
@@ -49,7 +47,13 @@ Page({
             })
         }, 1500)
     },
-
+    setSearchInput(e){
+      let searchTerm = wx.getStorageSync('searchLog')
+      const index = e.currentTarget.dataset.index;
+      this.setData({
+        _search_input: searchTerm[index]
+      });
+    },
     // 实现清空搜索框内容的功能
     deleteSearch() {
         this.setData({
@@ -66,6 +70,31 @@ Page({
         wx.removeStorageSync('searchLog')
     },
 
+    goToId(){
+      wx.navigateTo({
+        url: '../classifed/classified?index=0'
+      })
+    },
+    goToBook(){
+      wx.navigateTo({
+        url: '../classifed/classified?index=1'
+      })
+    },
+    goToLifes(){
+      wx.navigateTo({
+        url: '../classifed/classified?index=2'
+      })
+    },
+    goToElectronic(){
+      wx.navigateTo({
+        url: '../classifed/classified?index=3'
+      })
+    },
+    goToOthers(){
+      wx.navigateTo({
+        url: '../classifed/classified?index=4'
+      })
+    },
     /**
      * 生命周期函数--监听页面加载
      */

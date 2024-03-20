@@ -1,4 +1,4 @@
-<view class="body">
+<!-- <view class="body"> -->
 
     <!-- 未登录界面 -->
     <view class="unlogin-body" wx:if="{{!login}}">
@@ -13,8 +13,12 @@
 
         <!-- 个人展示栏 -->
         <view class="info">
-            <image class="avatarUrl" src="{{avatarUrl}}"></image>
-            <text class="nickName">{{nickName}}</text>
+            <!-- <image class="avatarUrl" src="{{avatarUrl}}"></image> -->
+            <button class="avatarBtn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+              <image class="avatarUrl" src="{{avatarUrl}}"></image>
+            </button>
+            <input type="nickname" bindblur="setNickName" class="nickName" placeholder="请输入昵称" value="{{nickName}}"/>
+            <!-- <text class="nickName">{{nickName}}</text> -->
         </view>
 
         <!-- 横向标签栏 -->
@@ -34,4 +38,4 @@
 
     </view>
     
-</view>
+<!-- </view> -->

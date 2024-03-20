@@ -18,7 +18,7 @@
             <text>联系方式</text>
             <view class="contact-right">
                 <view class="edit" wx:if="{{edit}}">
-                    <input class="edit-input" type="text" value="{{phone}}" bindinput="getPhone" bindblur="modifyPhone" placeholder="请输入电话号码" maxlength="11" type="number"/>
+                    <input class="edit-input" type="text" value="{{phone}}" bindinput="getPhone" bindblur="modifyPhone" placeholder="请输入电话号码" maxlength="11" type="number" value="{{userInfo.phone}}"/>
                     <image wx:if="{{phone.length > 0}}" bindtap="deletePhone" class="close-icon" src="../../images/close.png"></image>
                 </view>
                 <view class="phone-display" wx:else>{{_phone}}</view>

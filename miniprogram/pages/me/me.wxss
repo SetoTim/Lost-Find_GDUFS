@@ -32,7 +32,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 70rpx 0;
+    padding: 50rpx 0;
+    width: 100%;
+}
+.info .avatarBtn{
+  display: flex;
+  background-color: #ff70b0;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
 }
 
 .info .avatarUrl {

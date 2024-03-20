@@ -1,3 +1,9 @@
+<wxs module="indexofStr">
+	module.exports.includes = function (str1, str2) {
+		return str1.indexOf(str2)
+	}
+</wxs>
+
 <view class="body">
     <!-- 搜索框 -->
     <view class="search-box">
@@ -7,29 +13,37 @@
     </view>
 
     <!-- 搜索历史 -->
-    <view class="empty-search" wx:if="{{search_input.length === 0}}">
+    <view class="empty-search" wx:if="{{_search_input.length === 0}}">
         <view class="search-history">
             <text class="history-text">搜索历史</text>
             <image class="delete-icon" src="../../images/delete.png" bindtap="deleteSearchLog"></image>
         </view>
         <view class="search-history-list">
-            <view class="search-history-item" wx:for="{{searchLog}}" wx:key="index">{{item}}</view>
+            <view class="search-history-item" wx:key="index" data-index="{{index}}" wx:for="{{searchLog}}"  bindtap="setSearchInput">{{item}}</view>
         </view>
     </view>
 
     <!-- 搜索结果 -->
     <view class="result-search" wx:else>
-        <view class="search-item">
-            <text>身份证</text>
+        <view class="search-item" wx:if="{{indexofStr.includes(search_input,'证') > -1}}" bind:tap="goToId">
+            <text>证件类</text>
             <image class="arrow-icon" src="../../images/right.png"></image>
         </view>
-        <!-- <view class="search-item">
-            <text>身份证</text>
+        <view class="search-item" wx:if="{{indexofStr.includes(search_input,'书') > -1}}"  bind:tap="goToBook">
+            <text>书籍类</text>
             <image class="arrow-icon" src="../../images/right.png"></image>
         </view>
-        <view class="search-item">
-            <text>身份证</text>
+        <view class="search-item" wx:if="{{indexofStr.includes(search_input,'包') > -1}}" bind:tap="goToLifes">
+            <text>生活用品类</text>
             <image class="arrow-icon" src="../../images/right.png"></image>
-        </view> -->
+        </view>
+        <view class="search-item" wx:if="{{indexofStr.includes(search_input,'机') > -1}}" bind:tap="goToElectronic">
+            <text>电子产品类</text>
+            <image class="arrow-icon" src="../../images/right.png"></image>
+        </view>
+        <view class="search-item" bind:tap="goToOthers">
+            <text>其他</text>
+            <image class="arrow-icon" src="../../images/right.png"></image>
+        </view>
     </view>
 </view>
