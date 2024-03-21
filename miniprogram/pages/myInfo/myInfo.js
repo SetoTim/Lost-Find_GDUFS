@@ -44,6 +44,7 @@ Page({
             ...userInfo,
             phone: this.data.phone
         }
+        wx.setStorageSync('phone', this.data.phone)
         wx.setStorageSync('userInfo', userInfo)
         this.setData({
             edit: false,
@@ -60,11 +61,9 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad(options) {
-        const {
-            avatarUrl,
-            nickName,
-            phone
-        } = wx.getStorageSync('userInfo')
+        const phone = wx.getStorageSync('phone')
+        const nickName = wx.getStorageSync('nickName')
+        const avatarUrl = wx.getStorageSync('avatarUrl')
         this.setData({
             avatarUrl,
             nickName,

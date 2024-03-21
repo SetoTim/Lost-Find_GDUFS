@@ -37,6 +37,7 @@ Page({
       this.setData({
         avatarUrl
       })
+      wx.setStorageSync('avatarUrl', avatarUrl)
     },
     // 实现页面跳转
     toDetail(e) {
@@ -89,12 +90,14 @@ Page({
                     avatarUrl,
                     nickName
                 }
+                const avatarUrl1 = wx.getStorageSync('avatarUrl')
+                const nickName1 = wx.getStorageSync('nickName')
                 wx.setStorageSync('userInfo', userInfo)
                 wx.setStorageSync('login', true)
                 this.setData({
                     login: true,
-                    avatarUrl,
-                    nickName
+                    avatarUrl : avatarUrl1,
+                    nickName : nickName1
                 })
             }
         })

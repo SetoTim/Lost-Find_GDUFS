@@ -54,6 +54,7 @@
 .info .nickName {
     color: #fff;
     margin-top: 30rpx;
+    width: 200rpx;
 }
 
 .cell-body {
